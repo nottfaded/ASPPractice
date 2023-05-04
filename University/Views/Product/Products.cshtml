@@ -1,0 +1,48 @@
+﻿@using University.Data.Models;
+@model IEnumerable<Product>
+
+<body>
+    <h2>Products</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryId)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Price
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @item.CategoryId
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+
+
+
