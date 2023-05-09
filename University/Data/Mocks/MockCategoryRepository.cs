@@ -11,8 +11,8 @@ namespace University.Data.Mocks
         {
             categories = new List<Category>()
             {
-                new Category { Id = 1, Name = "Computers", Description = "Desktops, laptops and tablets" },
-                new Category { Id = 2, Name = "Accessories", Description = "Keyboards, mice and other peripherals" }
+                new Category { Id = 1, Name = "Монітори", Description = "Пристрій оперативного візуального зв'язку користувача з керуючим пристроєм та відображенням даних, що передаються з клавіатури, миші або центрального процесора" },
+                new Category { Id = 2, Name = "Перифірія для ПК", Description = "Апаратура, яка дозволяє вводити інформацію до комп'ютера або виводити її з нього" }
             };
         }
 

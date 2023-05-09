@@ -19,7 +19,20 @@ namespace University.Data.Controllers
         public IActionResult Products()
         {
             var products = productRepository.GetProducts();
+            var categories = categoryRepository.GetCategories();
+            ViewData["Categories"] = categories;
             return View(products);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            var product = productRepository.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            ViewData["Category"] = categoryRepository.GetCategories().FirstOrDefault(i => i.Id == product.Id);
+            return View(product);
         }
 
         [HttpGet]

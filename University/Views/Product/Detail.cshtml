@@ -1,7 +1,7 @@
 ﻿@using University.Data.Models;
-@model IEnumerable<Product>
+@model Product
 @{
-    var categories = ViewData["Categories"] as IEnumerable<Category>;
+    var category = ViewData["Category"] as Category;
 }
 
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand">Магазин комп'ютерного комплектуючого</a>
+                <a class="navbar-brand" href="#">Магазин комп'ютерного комплектуючого</a>
                 <button class="navbar-toggler" type="button" data-bstoggle="collapse" data-bs-target="#navbarCollapse" ariacontrols="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -40,22 +40,17 @@
         </nav>
     </header>
     <div class="container">
-        <div class="row">
-            @foreach (var product in Model)
-            {
-                <div class="col-md-4">
-                    <div class="card" style="width: 15rem;">
-                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">@($"({categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name})")</p>
-                            <p class="card-text">@product.Description</p>
-                            <p class="card-text">₴@product.Price</p>
-                            <a href="@Url.Action("Detail", "Product", new { id = product.Id })" class="btn btn-primary">Детальніше</a>
-                        </div>
-                    </div>
-                </div>
-            }
+        <div class="card mx-auto my-5" style="width: 25rem;">
+            <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
+            <div class="card-body">
+                <h5 class="card-title">Назва товару: @Model.Name</h5>
+                <p class="card-text">Ціна: ₴@Model.Price</p>
+                <p class="card-text">Опис: @Model.Description</p>
+                <p class="card-text"> Кількість на складі: @Model.CountInStock</p>
+                <p class="card-text"><b>Категорія</b></p>
+                <p class="card-text">Назван: @category.Name</p>
+                <p class="card-text">Опис: @category.Description</p>
+            </div>
         </div>
     </div>
     <footer class="container mt-5">
