@@ -1,14 +1,25 @@
-﻿using University.Data.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using University.Data;
+using University.Data.Interfaces;
 using University.Data.Mocks;
+using University.Data.Repository;
 
 namespace University
 {
     public class Startup
     {
+        private IConfigurationRoot _confString;
+
+        public Startup(Microsoft.AspNetCore.Hosting.IHostingEnvironment hostEnv)
+        {
+            _confString = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbsettings.json").Build();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICategoryRepository, MockCategoryRepository>();
-            services.AddTransient<IProductRepository, MockProductRepository>();
+            services.AddDbContext<DBContent>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
