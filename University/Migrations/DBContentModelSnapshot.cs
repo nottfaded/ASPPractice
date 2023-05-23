@@ -42,7 +42,7 @@ namespace University.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("University.Data.Models.Product", b =>
@@ -85,7 +85,7 @@ namespace University.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("University.Data.Models.Product", b =>

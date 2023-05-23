@@ -1,8 +1,8 @@
 ﻿@using University.Data.Models;
-@model IEnumerable<Product>
+@model IEnumerable<CartItem>
 @{
     var categories = ViewData["Categories"] as IEnumerable<Category>;
-    var countCartItem = ViewData["CountCartItem"] as int?;
+    var fullPrice = ViewData["FullPrice"] as int?;
 }
 
 <!DOCTYPE html>
@@ -28,37 +28,50 @@
                                href="@Url.Action("Products", "Product")">Home</a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <a class="btn btn-outline-success"
-                           type="submit" href="@Url.Action("Cart", "Product")">
-                            Кошик <span id="cartItemCount">@countCartItem</span>
-                        </a>
-                    </form>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <div class="row">
-            @foreach (var product in Model)
+        <h1>Кошик</h1>
+        @{
+            if (Model.Count() != 0)
             {
-                <div class="col-md-4">
-                    <div class="card" style="width: 15rem;">
-                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">@($"({categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name})")</p>
-                            <p class="card-text">@product.Description</p>
-                            <p class="card-text">₴@product.Price</p>
-                            <a href="@Url.Action("Detail", "Product", new { id = product.Id })" class="btn btn-primary">Детальніше</a>
-                            <button class="btn btn-dark" onclick="addToCart(@product.Id)">У кошик</button>
+                <div class="alert alert-info" role="alert">
+                    Всього до спалит @(fullPrice)₴
+                </div>
+                <div class="row">
+                    @foreach (var cartItem in Model)
+                    {
+                        <div class="col-md-4">
+                            <div class="card" style="width: 15rem;">
+                                <img src="@cartItem.Product.ImageUrl" class="card-img-top" alt="@cartItem.Product.ImageUrl">
+                                <div class="card-body">
+                                    <h5 class="card-title">@cartItem.Product.ImageUrl</h5>
+                                    <p class="card-text">@($"({categories.FirstOrDefault(c => c.Id == cartItem.Product.CategoryId)?.Name})")</p>
+                                    <p class="card-text">@cartItem.Product.Description</p>
+                                    <p class="card-text">₴@cartItem.Product.Price</p>
+                                    <p class="card-text">@cartItem.Amount кіл.</p>
+                                    <button class="btn btn-dark" onclick="removeFromCart(@cartItem.Product.Id)">Видалити з кошика</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             }
-        </div>
+            else
+            {
+                <h2> Пусто </h2>
+            }
+        }
     </div>
     <footer class="container mt-5">
+        @{
+            if(Model.Count() != 0)
+            {
+                <a class="btn btn-info" href="@Url.Action("Order", "Cart")">Оформити замовлення</a>
+            }
+        }
         <p class="float-left">
             <a href="#">Back to top</a>
         </p>
@@ -71,16 +84,13 @@
     </footer>
     <script src="~/js/bootstrap.min.js"></script>
     <script>
-        function addToCart(productId) {
-            fetch(`/Product/AddToCart/${productId}`, { method: 'POST' })
+        function removeFromCart(productId) {
+            fetch(`/Cart/RemoveFromCart/${productId}`, { method: 'POST' })
                 .then(response => {
                     if (response.ok) {
-                        alert("Товар був доданий до кошику")
-                        return response.text();
+                        alert("Товар був видалений з кошика")
+                        window.location.reload();
                     }
-                })
-                .then(countCartItem => {
-                    document.getElementById("cartItemCount").innerText = countCartItem; 
                 })
                 .catch(error => {
                     console.error('An error occurred:', error);

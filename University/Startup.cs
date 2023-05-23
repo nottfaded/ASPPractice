@@ -18,8 +18,11 @@ namespace University
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DBContent>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
+
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddSingleton<ICartRepository, CartRepository>();
+
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;

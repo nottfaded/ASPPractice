@@ -1,0 +1,86 @@
+﻿
+@model University.Data.Models.OrderViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var fullPrice = ViewData["FullPrice"] as int?;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand">Магазин комп'ютерного комплектуючого</a>
+                <button class="navbar-toggler" type="button" data-bstoggle="collapse" data-bs-target="#navbarCollapse" ariacontrols="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                               href="@Url.Action("Products", "Product")">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Оформлення заказу</h1>
+        <b>Сума замовлення: @(fullPrice)₴</b>
+        <form method="post" action="/Cart/PlaceOrder">
+            <div class="form-group">
+                <label for="name">Ім'я</label>
+                <input type="text" class="form-control" id="name" name="Name" value="@Model?.Name" required>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="contactInfo">Прізвище</label>
+                <input type="text" class="form-control" id="contactInfo" name="Surname" value="@Model?.Surname" required>
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="address">Адреса</label>
+                <input type="text" class="form-control" id="address" name="Address" value="@Model?.Address" required>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="contactInfo">Номер телефона</label>
+                <input type="text" class="form-control" id="contactInfo" name="Phone" value="@Model?.Phone" required>
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Поштова адреса</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="Email" value="@Model?.Email" required>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Оформити замовлення</button>
+        </form>
+    </div>
+    <footer class="container mt-5">
+        <p class="float-left">
+            <a href="#">Back to top</a>
+        </p>
+        <p>
+            © 2023 Non-commercial product. · <a href="#">Privacy</a> ·
+            <a href="#">
+                Terms
+            </a>
+        </p>
+    </footer>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script>
+        
+    </script>
+</body>
+</html>
+
+
+
